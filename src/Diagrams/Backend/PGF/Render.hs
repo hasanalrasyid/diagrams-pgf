@@ -97,9 +97,12 @@ instance Fractional n => Default (Options PGF V2 n) where
           , _standalone = False
           }
 
+instance Semigroup (Render PGF V2 n) where
+  R ra <> R rb = R $ ra >> rb
+
 instance Monoid (Render PGF V2 n) where
   mempty              = R $ return ()
-  R ra `mappend` R rb = R $ ra >> rb
+  mappend = (<>)
 
 -- | Lens onto the surface used to render.
 surface :: Lens' (Options PGF V2 n) Surface
